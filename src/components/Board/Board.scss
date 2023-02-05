@@ -1,9 +1,17 @@
 .board {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: column;
 
   &__row {
     display: flex;
     flex-direction: row;
   }
+  
+}
+
+.status {
+  color: #646cff;
+  font-weight: 700;
 }
