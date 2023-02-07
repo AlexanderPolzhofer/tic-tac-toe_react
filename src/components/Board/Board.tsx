@@ -3,9 +3,19 @@ import { Square } from "../Square/Square";
 import { calculateWinner } from "./util/calculateWinner";
 import "./Board.scss";
 
-export const Board = () => {
-  const [squares, setSquares] = React.useState(new Array(9).fill(null));
-  const [xIsNext, setXisNext] = React.useState(true);
+interface BoardProps {
+  squares: any[];
+  onChange: React.Dispatch<React.SetStateAction<any[]>>;
+  xIsNext: boolean;
+  onChangePlayer: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const Board: React.FC<BoardProps> = ({
+  squares,
+  onChange,
+  xIsNext,
+  onChangePlayer,
+}) => {
   const winner = calculateWinner(squares);
   const status = winner
     ? `Winner: ${winner}`
@@ -22,13 +32,13 @@ export const Board = () => {
     } else {
       nextSquares[i] = "O";
     }
-    setSquares(nextSquares);
-    setXisNext(!xIsNext);
+    onChange(nextSquares);
+    onChangePlayer(!xIsNext);
   };
 
   const handleDelete = () => {
-    setSquares(new Array(9).fill(null));
-    setXisNext(true);
+    onChange(new Array(9).fill(null));
+    onChangePlayer(true);
   };
 
   return (
