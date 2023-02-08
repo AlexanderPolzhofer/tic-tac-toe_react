@@ -5,24 +5,19 @@ import "./Board.scss";
 
 interface BoardProps {
   squares: any[];
-  onChange: React.Dispatch<React.SetStateAction<any[]>>;
+  onPlay: (nextSquares: any[]) => void;
   xIsNext: boolean;
-  onChangePlayer: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Board: React.FC<BoardProps> = ({
-  squares,
-  onChange,
-  xIsNext,
-  onChangePlayer,
-}) => {
+export const Board: React.FC<BoardProps> = ({ squares, onPlay, xIsNext }) => {
+  console.log("Squares", squares);
   const winner = calculateWinner(squares);
   const status = winner
     ? `Winner: ${winner}`
     : `Next player: ${xIsNext ? "X" : "O"}`;
 
   const handleSquareClick = (i: number) => {
-    if (squares[i] || calculateWinner(squares)) {
+    if (calculateWinner(squares) || squares[i]) {
       return;
     }
     const nextSquares = squares.slice();
@@ -32,13 +27,11 @@ export const Board: React.FC<BoardProps> = ({
     } else {
       nextSquares[i] = "O";
     }
-    onChange(nextSquares);
-    onChangePlayer(!xIsNext);
+    onPlay(nextSquares);
   };
 
   const handleDelete = () => {
-    onChange(new Array(9).fill(null));
-    onChangePlayer(true);
+    onPlay(new Array(9).fill(null));
   };
 
   return (
